@@ -17,20 +17,18 @@ const getJsAndCssList = (items) => {
 // Prepare a production head tag with the loader script
 const loadSkinData = () => {
   const bundleContent = fs.readFileSync(path.resolve(path.join(
-    __dirname, '..', '..', '..', 'dist', 'assets', 'stats.json')), 'utf-8')
+    __dirname, '..', 'dist', 'assets', 'stats.json')), 'utf-8')
   const bundleParsed = JSON.parse(bundleContent)
   const vendorPath = getJsAndCssList(bundleParsed.chunks.vendor)[0]
-  const loaderPath = getJsAndCssList(bundleParsed.chunks.loader)[0]
   const defaultPathList = getJsAndCssList(bundleParsed.chunks.default)
   return {
     vendorPath,
-    loaderPath,
-    defaultPathList,
+    defaultPathList
   }
 }
 
-// const createCssTag = (filePath) =>
-//   `<link rel="stylesheet" src="${filePath}">\n`
+const createCssTag = (filePath) =>
+  `<link rel="stylesheet" src="${filePath}">\n`
 
 const createJsTag = (options) => {
   const defer = options.defer ? ' defer' : ''
@@ -38,24 +36,27 @@ const createJsTag = (options) => {
   `${defer}></script>\n`
 }
 
-const createSettingsTag = (settings) => util.format(
-  '<script type="text/javascript">\nvar __assetData = %j\n</script>\n',
-  settings)
+// const createSettingsTag = (settings) => util.format(
+//   '<script type="text/javascript">\nvar __assetData = %j\n</script>\n',
+//   settings)
 
 exports.createHeader = () => {
   const skinData = loadSkinData()
   let headerStr = ''
   headerStr += createJsTag({
-    path: skinData.vendorPath,
+    path: skinData.vendorPath
   })
-  headerStr += createSettingsTag({
-    skin: {
-      default: skinData.defaultPathList,
-    },
-  })
-  headerStr += createJsTag({
-    path: skinData.loaderPath,
-    defer: true,
-  })
+  for (let assetPath of skinData.defaultPathList) {
+    if (assetPath.endsWith('.css')) {
+      headerStr += createCssTag(assetPath)
+      continue
+    }
+    if (assetPath.endsWith('.js')) {
+      headerStr += createJsTag({
+        path: assetPath,
+        defer: true
+      })
+    }
+  }
   return headerStr
 }

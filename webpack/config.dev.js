@@ -15,24 +15,21 @@ configBase.devtool = 'source-map'
 configBase.output.filename = '[name].js'
 
 configBase.plugins = [
-  new webpack.ProvidePlugin({
-    riot: 'riot',
-  }),
   new BundleTracker({
     path: __dirname,
-    filename: path.join('..', 'dist', 'assets', 'stats.json'),
+    filename: path.join('..', 'dist', 'assets', 'stats.json')
   }),
   new ExtractTextPlugin('[name].css'),
   // keeps hashes consistent between compilations
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.optimize.CommonsChunkPlugin(
-    /* chunkName= */'vendor', /* filename= */'vendor.bundle.js'),
+    /* chunkName= */'vendor', /* filename= */'vendor.bundle.js')
 ]
 
 configBase.module.loaders.push({
   test: /\.scss$/,
   loader: ExtractTextPlugin.extract(
-    'style-loader', 'css-loader!sass-loader'),
+    'style-loader', 'css-loader!sass-loader')
 })
 
 module.exports = configBase

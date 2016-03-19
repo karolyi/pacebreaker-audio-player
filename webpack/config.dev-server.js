@@ -35,15 +35,12 @@ configBase.module.loaders.push({
 })
 
 configBase.plugins = [
-  new webpack.ProvidePlugin({
-    riot: 'riot',
-  }),
   new webpack.HotModuleReplacementPlugin(),
   // new webpack.NoErrorsPlugin(), // don't reload if there is an error
   new BundleTracker({
     path: __dirname,
-    filename: path.join('..', 'dist', 'assets', 'stats.json'),
-  }),
+    filename: path.join('..', 'dist', 'assets', 'stats.json')
+  })
 ]
 
 

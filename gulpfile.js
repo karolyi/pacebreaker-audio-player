@@ -7,7 +7,7 @@ const WebpackDevServer = require('webpack-dev-server')
 const path = require('path')
 const del = require('del')
 const htmlreplace = require('gulp-html-replace')
-const bundleHelper = require('./src/js/loader/bundlehelper')
+const bundleHelper = require('./webpack/bundlehelper')
 const eslint = require('gulp-eslint')
 
 const htmlReplaceSkeleton = () =>
@@ -15,16 +15,18 @@ const htmlReplaceSkeleton = () =>
     .pipe(htmlreplace({
       loader: {
         src: null,
-        tpl: bundleHelper.createHeader(),
-      },
+        tpl: bundleHelper.createHeader()
+      }
     }))
     .pipe(gulp.dest('dist/'))
 
 // Cleanup task
-gulp.task('clean', () => del(['./dist/**/*']))
+gulp.task('clean', (cb) => {
+  del(['./dist/**/*']).then(() => {cb()})
+})
 
 // Lint Task
-gulp.task('lint', () => gulp.src('src/**/*.{tag,js,html}')
+gulp.task('lint', () => gulp.src('src/**/*.{jsx,js}')
   // eslint() attaches the lint output to the "eslint" property
   // of the file object so it can be used by other modules.
   .pipe(eslint())
@@ -58,11 +60,11 @@ gulp.task('webpack-dev-server', ['clean'], () => {
     inline: true,
     historyApiFallback: true,
     progress: true,
-    contentBase: path.join(__dirname, 'frontend', 'src'),
+    contentBase: path.join(__dirname, 'src'),
     publicPath: '/assets/',
     stats: {
-      colors: true,
-    },
+      colors: true
+    }
   })
   server.listen(8081, '0.0.0.0', (err) => {
     if (err) throw new gutil.PluginError('webpack-dev-server', err)
@@ -72,5 +74,5 @@ gulp.task('webpack-dev-server', ['clean'], () => {
 })
 
 gulp.task('default', ['clean', 'lint'], () => {
-    // This will only run if the lint task is successful...
+  console.log('stuffff')
 })

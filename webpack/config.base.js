@@ -7,15 +7,15 @@ module.exports = {
     default: [
       // entry point of our app. assets/js/index.js should require other
       // js modules and dependencies it needs
-      '../src/index',
-      '../src/base.scss',
-    ],
+      '../src/index.jsx'
+      // '../src/base.scss'
+    ]
   },
 
   output: {
     path: path.resolve(path.join(__dirname, '..', 'dist', 'assets')),
     publicPath: '/assets/',
-    filename: '[name]-[hash].js',
+    filename: '[name]-[hash].js'
   },
 
   // configure your plugins at the separate mode level files
@@ -26,9 +26,9 @@ module.exports = {
         // Transpile ES6 to ES5
         test: /\.js?$/,
         exclude: /node_modules/,
-        loaders: ['babel'],
+        loaders: ['babel']
       },
-      to transform JSX into JS
+      // to transform JSX into JS
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -36,26 +36,26 @@ module.exports = {
       },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/font-woff',
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
       },
       {
         test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file-loader',
-      },
-    ],
+        loader: 'file-loader'
+      }
+    ]
   },
 
   sassLoader: {
     includePaths: [
-      path.resolve(__dirname, '../node_modules'),
-    ],
+      path.resolve(__dirname, '../node_modules')
+    ]
   },
 
   resolve: {
     modulesDirectories: [
       'node_modules',
-      'bower_components',
+      'bower_components'
     ],
-    extensions: ['', '.js', '.jsx'],
-  },
+    extensions: ['', '.js', '.jsx']
+  }
 }

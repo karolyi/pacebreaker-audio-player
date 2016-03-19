@@ -1,6 +1,8 @@
 {
-  "ecmaFeatures": {
-    "modules": true
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "env": {
     "browser": true,
@@ -14,10 +16,8 @@
     "strict": [2, "never"],
     "max-len": [2, {"code": 80, "tabWidth": 4, "ignoreUrls": true}]
   },
-  "globals": {
-  },
   "plugins": [
     "react"
   ],
-  "extends": ["eslint:recommended", "airbnb/base"]
+  "extends": ["eslint:recommended", "plugin:react/recommended"]
 }

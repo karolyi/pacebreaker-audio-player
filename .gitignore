@@ -32,3 +32,4 @@ logs/
 venv/
 tools/
 old/
+dist/
